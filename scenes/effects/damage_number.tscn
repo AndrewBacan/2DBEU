@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dncbakohuysvf"]
+
+[ext_resource type="Script" uid="uid://2q8dr8akaiqh" path="res://scenes/effects/damage_number.gd" id="1_sx2xe"]
+
+[sub_resource type="SystemFont" id="SystemFont_oxha2"]
+font_names = PackedStringArray("Britannic")
+
+[sub_resource type="FontVariation" id="FontVariation_t2dwb"]
+base_font = SubResource("SystemFont_oxha2")
+
+[node name="DamageNumber" type="Label" unique_id=1358827150]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = SubResource("FontVariation_t2dwb")
+script = ExtResource("1_sx2xe")

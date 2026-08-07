@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://4pqund3nukl7"]
+
+[ext_resource type="Script" uid="uid://dgemna2cprj7k" path="res://player.gd" id="1_wtcfe"]
+
+[node name="Node2D" type="Node2D" unique_id=1954326395]
+y_sort_enabled = true
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1676281496]
+script = ExtResource("1_wtcfe")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=2128412044]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=385086527]
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=804501284]
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=68266368]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=1692211365]

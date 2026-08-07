@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://7vj56t7dqwsq"]
+
+[ext_resource type="Script" uid="uid://cextkx2qubde0" path="res://scenes/enemies/ranged_enemy.gd" id="1_tegwr"]
+[ext_resource type="PackedScene" uid="uid://2ypowqdrevnu" path="res://scenes/enemies/projectile.tscn" id="2_k7uv6"]
+[ext_resource type="Texture2D" uid="uid://c3hnxctqy5ugx" path="res://assets/sprites/enemies/guy copy.png" id="3_d5ppq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t2dwb"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m2va7"]
+size = Vector2(32, 32)
+
+[node name="RangedEnemy" type="CharacterBody2D" unique_id=1648091300 groups=["enemies"]]
+script = ExtResource("1_tegwr")
+projectile_scene = ExtResource("2_k7uv6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=282428385]
+shape = SubResource("RectangleShape2D_t2dwb")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=529316]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1277827796]
+shape = SubResource("RectangleShape2D_m2va7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1832613730]
+texture = ExtResource("3_d5ppq")

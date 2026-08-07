@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://2ypowqdrevnu"]
+
+[ext_resource type="Script" uid="uid://bippw7qa1k6vy" path="res://scenes/enemies/projectile.gd" id="1_io4ym"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t2dwb"]
+size = Vector2(12, 12)
+
+[node name="Projectile" type="Area2D" unique_id=1372926253]
+script = ExtResource("1_io4ym")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=663361654]
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1464295872]
+shape = SubResource("RectangleShape2D_t2dwb")
