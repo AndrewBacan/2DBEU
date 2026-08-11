@@ -5,21 +5,17 @@
 [ext_resource type="Script" uid="uid://b7neuh5ubg45v" path="res://spawner.gd" id="4_ccpaa"]
 [ext_resource type="PackedScene" uid="uid://7vj56t7dqwsq" path="res://scenes/enemies/ranged_enemy.tscn" id="5_ccpaa"]
 [ext_resource type="Script" uid="uid://bskkp2mxmljif" path="res://scenes/levels/health_bar.gd" id="5_yg3ru"]
-[ext_resource type="Script" uid="uid://wgchqtg2qko4" path="res://scenes/levels/health_label.gd" id="6_1dwwa"]
 [ext_resource type="Texture2D" uid="uid://qtr3on1urv8e" path="res://assets/backgrounds/77b22024-a485-4e44-b834-b036a31a1b7c.png" id="6_ccpaa"]
-[ext_resource type="Script" uid="uid://c6swb7x83sqi7" path="res://scenes/levels/special_bar.gd" id="6_cy280"]
 
-[sub_resource type="Theme" id="Theme_1dwwa"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dwwa"]
-bg_color = Color(0.30389324, 0.16986224, 0, 0.6745098)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fcftc"]
+bg_color = Color(0.2665752, 0.26657522, 0.26657507, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amy3i"]
-bg_color = Color(0.72564286, 0.5833435, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38ino"]
+bg_color = Color(0.36078432, 0.023529412, 0, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -30,6 +26,27 @@ corner_detail = 10
 
 [node name="World" type="Node2D" parent="." unique_id=1989212901]
 y_sort_enabled = true
+
+[node name="Player" parent="World" unique_id=781193226 instance=ExtResource("1_0e48y")]
+position = Vector2(0, 389)
+speed = 200.0
+floor_top = 100.0
+floor_bottom = 700.0
+block_damage_reduction = 0.8
+block_speed_multiplier = 0.3
+dash_speed = 600.0
+dash_cooldown = 0.6
+max_health = 100
+invulnerable_duration = 0.5
+special_cooldown = 5.0
+special_dash_speed = 900.0
+special_dash_duration = 0.25
+special_dash_decay = 1200.0
+special_dash_hit_radius = 50.0
+shockwave_radius = 150.0
+shockwave_knockback = 400.0
+knockback_decay = 2000.0
+attack_knockback_force = 400.0
 
 [node name="Spawner" type="Node2D" parent="World" unique_id=1881730136]
 script = ExtResource("4_ccpaa")
@@ -44,49 +61,17 @@ centered = false
 [node name="UI" type="CanvasLayer" parent="." unique_id=281095109]
 
 [node name="HealthBar" type="ProgressBar" parent="UI" unique_id=1944544867]
-anchors_preset = -1
-anchor_left = 0.32500002
-anchor_top = 0.89500004
-anchor_right = 0.67600006
-anchor_bottom = 0.93700004
-offset_left = -0.4000244
-offset_top = 0.039978027
-offset_right = 0.2479248
-offset_bottom = -0.17602539
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -27.0
+offset_right = 198.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_fcftc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_38ino")
 script = ExtResource("5_yg3ru")
 metadata/_edit_use_anchors_ = true
-
-[node name="HealthLabel" type="Label" parent="UI" unique_id=1880273492]
-anchors_preset = -1
-anchor_left = 0.342
-anchor_top = 0.89800006
-anchor_right = 0.372
-anchor_bottom = 0.934
-offset_left = 0.015991211
-offset_top = 0.095947266
-offset_right = -0.54400635
-offset_bottom = -0.23199463
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("6_1dwwa")
-
-[node name="SpecialBar" type="ProgressBar" parent="UI" unique_id=903624288]
-anchors_preset = -1
-anchor_left = 0.35900003
-anchor_top = 0.93600005
-anchor_right = 0.64100003
-anchor_bottom = 0.96000004
-offset_left = -0.5680237
-offset_top = 0.47198486
-offset_right = 0.56799316
-offset_bottom = 7.919983
-focus_neighbor_top = NodePath("../HealthBar")
-theme = SubResource("Theme_1dwwa")
-theme_override_styles/background = SubResource("StyleBoxFlat_1dwwa")
-theme_override_styles/fill = SubResource("StyleBoxFlat_amy3i")
-script = ExtResource("6_cy280")
-
-[node name="Player" parent="." unique_id=781193226 instance=ExtResource("1_0e48y")]
-position = Vector2(575, 324)

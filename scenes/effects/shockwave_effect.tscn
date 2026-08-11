@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dpved5w58kiem"]
+
+[ext_resource type="Script" uid="uid://qkxs6baypkns" path="res://scenes/effects/shockwave_effect.gd" id="1_f1iva"]
+[ext_resource type="Texture2D" uid="uid://vqmilp41ew14" path="res://assets/sprites/effects/shockwave.png" id="2_huiby"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_saki2"]
+atlas = ExtResource("2_huiby")
+region = Rect2(0, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdavi"]
+atlas = ExtResource("2_huiby")
+region = Rect2(200, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gshlb"]
+atlas = ExtResource("2_huiby")
+region = Rect2(400, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxe4m"]
+atlas = ExtResource("2_huiby")
+region = Rect2(600, 0, 200, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2dwb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_saki2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdavi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gshlb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxe4m")
+}],
+"loop": 0,
+"name": &"shockwave",
+"speed": 10.0
+}]
+
+[node name="ShockwaveEffect" type="Node2D" unique_id=1277900749]
+script = ExtResource("1_f1iva")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1137408044]
+sprite_frames = SubResource("SpriteFrames_t2dwb")
+animation = &"shockwave"
+autoplay = "shockwave"
+frame = 2
+frame_progress = 0.6348434

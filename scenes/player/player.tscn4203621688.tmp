@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://blr6egy8em2qg" path="res://assets/sprites/playerknight/ATTACK 1.png" id="2_lvxji"]
 [ext_resource type="Texture2D" uid="uid://crlhrf2kd2ioa" path="res://assets/sprites/playerknight/ATTACK 2.png" id="3_5gtgg"]
 [ext_resource type="Texture2D" uid="uid://brix61bjwklci" path="res://assets/sprites/playerknight/DEATH.png" id="3_75vfm"]
-[ext_resource type="PackedScene" uid="uid://dpved5w58kiem" path="res://scenes/effects/shockwave_effect.tscn" id="3_fm80t"]
 [ext_resource type="Texture2D" uid="uid://dlh7i7o2vfuv7" path="res://assets/sprites/playerknight/IDLE.png" id="3_p47bc"]
 [ext_resource type="Texture2D" uid="uid://dfpvy721g4tia" path="res://assets/sprites/playerknight/HURT.png" id="4_0owmy"]
 [ext_resource type="Texture2D" uid="uid://dhurkhcc3k018" path="res://assets/sprites/playerknight/WALK.png" id="4_75vfm"]
@@ -432,14 +431,30 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D" unique_id=781193226 groups=["player"]]
 script = ExtResource("1_8afob")
+speed = null
 floor_top = -300.0
 floor_bottom = 300.0
+block_damage_reduction = null
+block_speed_multiplier = null
+dash_speed = null
 dash_duration = 0.2
+dash_cooldown = null
 dash_decay = 1600.0
-special_dash_decay = 2000.0
+max_health = null
+invulnerable_duration = null
+special_cooldown = null
+special_dash_speed = null
+special_dash_duration = null
+special_dash_decay = null
+special_damage = null
+special_dash_hit_radius = null
+shockwave_radius = null
+shockwave_knockback = null
+special_dash_damage = 25
+special_shockwave_damage = 12
 knockback_decay = 1600.0
+attack_knockback_force = null
 damage_number_scene = ExtResource("2_je7p5")
-shockwave_effect_scene = ExtResource("3_fm80t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=16220875]
 shape = SubResource("RectangleShape2D_0e48y")
@@ -462,7 +477,7 @@ libraries/ = SubResource("AnimationLibrary_0hol4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1335723693]
 sprite_frames = SubResource("SpriteFrames_t2dwb")
-animation = &"attack1"
+animation = &"attack3"
 autoplay = "idle"
 
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]

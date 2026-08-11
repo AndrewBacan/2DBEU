@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://4pqund3nukl7"]
+
+[ext_resource type="PackedScene" uid="uid://d1w5ccem33kle" path="res://scenes/player/player.tscn" id="1_0e48y"]
+[ext_resource type="PackedScene" uid="uid://bh37ivqe7pss8" path="res://scenes/enemies/enemy.tscn" id="2_0e48y"]
+[ext_resource type="Script" uid="uid://b7neuh5ubg45v" path="res://spawner.gd" id="4_ccpaa"]
+[ext_resource type="PackedScene" uid="uid://7vj56t7dqwsq" path="res://scenes/enemies/ranged_enemy.tscn" id="5_ccpaa"]
+[ext_resource type="Script" uid="uid://bskkp2mxmljif" path="res://scenes/levels/health_bar.gd" id="5_yg3ru"]
+[ext_resource type="Texture2D" uid="uid://qtr3on1urv8e" path="res://assets/backgrounds/77b22024-a485-4e44-b834-b036a31a1b7c.png" id="6_ccpaa"]
+
+[node name="Node2D" type="Node2D" unique_id=1954326395]
+
+[node name="World" type="Node2D" parent="." unique_id=1989212901]
+y_sort_enabled = true
+
+[node name="Player" parent="World" unique_id=781193226 instance=ExtResource("1_0e48y")]
+position = Vector2(0, 389)
+speed = 200.0
+floor_top = 100.0
+floor_bottom = 700.0
+block_damage_reduction = 0.8
+block_speed_multiplier = 0.3
+dash_speed = 600.0
+dash_cooldown = 0.6
+max_health = 100
+invulnerable_duration = 0.5
+special_cooldown = 5.0
+special_dash_speed = 900.0
+special_dash_duration = 0.25
+special_dash_decay = 1200.0
+special_damage = 20
+special_dash_hit_radius = 50.0
+shockwave_radius = 150.0
+shockwave_knockback = 400.0
+knockback_decay = 2000.0
+attack_knockback_force = 400.0
+
+[node name="Spawner" type="Node2D" parent="World" unique_id=1881730136]
+script = ExtResource("4_ccpaa")
+melee_enemy_scene = ExtResource("2_0e48y")
+ranged_enemy_scene = ExtResource("5_ccpaa")
+spawn_positions = Array[Vector2]([Vector2(410, 300), Vector2(650, 550), Vector2(700, 200), Vector2(450, 600)])
+
+[node name="Sprite2D" type="Sprite2D" parent="World" unique_id=1088322255]
+texture = ExtResource("6_ccpaa")
+centered = false
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=281095109]
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=1944544867]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -27.0
+offset_right = 198.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("5_yg3ru")
+metadata/_edit_use_anchors_ = true

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c6ne4a2nnwa58" path="res://scenes/enemies/enemy.gd" id="2_8e3ao"]
 [ext_resource type="Texture2D" uid="uid://c2tdxmeyb031r" path="res://assets/sprites/enemies/guy.png" id="2_38ino"]
+[ext_resource type="Script" uid="uid://brcd3pf1fmwom" path="res://scenes/enemies/shadow.gd" id="3_38ino"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t2dwb"]
 size = Vector2(32, 32)
@@ -40,15 +41,25 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.5, 0.8), Vector2(1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_fcftc"]
+resource_name = "knockback"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fcftc"]
 _data = {
 &"RESET": SubResource("Animation_8e3ao"),
-&"attack": SubResource("Animation_38ino")
+&"attack": SubResource("Animation_38ino"),
+&"knockback": SubResource("Animation_fcftc")
 }
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1648091300 groups=["enemies"]]
 script = ExtResource("2_8e3ao")
 surround_radius = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1070489867]
+texture = ExtResource("2_38ino")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=264312286]
+script = ExtResource("3_38ino")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=282428385]
 shape = SubResource("RectangleShape2D_t2dwb")
@@ -57,9 +68,6 @@ shape = SubResource("RectangleShape2D_t2dwb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1277827796]
 shape = SubResource("RectangleShape2D_m2va7")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1070489867]
-texture = ExtResource("2_38ino")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=41108345]
 libraries/ = SubResource("AnimationLibrary_fcftc")

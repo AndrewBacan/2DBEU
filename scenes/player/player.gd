@@ -32,17 +32,17 @@ var is_invulnerable: bool = false
 
 #-----------------Special: Shockwave Dash-------------
 var can_special: bool = true
+var using_special = true
 @export var special_cooldown: float = 5.0
 @export var special_dash_speed: float = 900.0
 @export var special_dash_duration: float = 0.25
 @export var special_dash_decay: float = 1200.0
-@export var special_damage: int = 20
 @export var special_dash_hit_radius: float = 50.0
 @export var shockwave_radius: float = 150.0
 @export var shockwave_knockback: float = 400.0
 var special_hit_targets: Array = []  # tracks who's already been hit this dash, prevents multi-hits
-@export var special_dash_damage: int = 12
-@export var special_shockwave_damage: int = 25
+@export var special_dash_damage: int = 25
+@export var special_shockwave_damage: int = 12
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
@@ -55,6 +55,7 @@ var is_dead: bool = false
 var knockback_velocity: Vector2 = Vector2.ZERO
 @export var knockback_decay: float = 800.0
 @export var attack_knockback_force: float = 250.0
+@export var special_knockback_force: float = 325.0
 
 var dash_velocity: Vector2 = Vector2.ZERO
 
@@ -63,6 +64,7 @@ var combo_window_open: bool = false
 var queued_next_attack: bool = false
 
 @export var damage_number_scene: PackedScene
+@export var shockwave_effect_scene: PackedScene
 
 signal health_changed(new_health: int, max_health: int)
 #endregion
@@ -100,12 +102,24 @@ func _physics_process(delta: float) -> void:
 				sprite.play("defend")
 			elif input_direction.length() > 0:
 				sprite.play("walk")
-				if velocity.x < 0: 
-					sprite.flip_h = true
-					attack_hitbox.position.x = abs(attack_hitbox.position.x) * (-1)
-				else:
-					sprite.flip_h = false
-					attack_hitbox.position.x = abs(attack_hitbox.position.x)
+			else:
+				sprite.play("idle")
+	
+	if input_direction.x != 0:
+		if input_direction.x < 0:
+			facing_left = true
+			sprite.flip_h = true
+			attack_hitbox.position.x = abs(attack_hitbox.position.x) * (-1)
+		else:
+			facing_left = false
+			sprite.flip_h = false
+			attack_hitbox.position.x = abs(attack_hitbox.position.x)
+	
+	if not is_attacking and not is_invulnerable:
+			if is_blocking:
+				sprite.play("defend")
+			elif input_direction.length() > 0:
+				sprite.play("walk")
 			else:
 				sprite.play("idle")
 	
@@ -237,7 +251,6 @@ func take_damage(amount: int, knockback_dir: Vector2 = Vector2.ZERO, knockback_f
 		attack_timer.stop()	
 	
 func _start_special(move_dir: Vector2) -> void:
-	var using_special = true
 	can_special = false
 	is_invulnerable = true
 	special_hit_targets.clear()
@@ -262,7 +275,7 @@ func _start_special(move_dir: Vector2) -> void:
 	
 	await get_tree().create_timer(special_cooldown).timeout
 	can_special = true
-
+	
 func _check_special_dash_hits() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for enemy in enemies:
@@ -271,20 +284,28 @@ func _check_special_dash_hits() -> void:
 		if global_position.distance_to(enemy.global_position) <= special_dash_hit_radius:
 			if enemy.has_method("take_damage"):
 				var push_dir = global_position.direction_to(enemy.global_position)
-				enemy.take_damage(special_damage, push_dir, 200.0)
+				enemy.take_damage(special_dash_damage, push_dir, special_knockback_force)
+				_spawn_damage_number(enemy.global_position, special_dash_damage)
 				special_hit_targets.append(enemy)
 
 func _trigger_shockwave() -> void:
-	HitStop.freeze(0.12)
-	$Camera2D.shake(14.0)
+	HitStop.freeze(0.10)
+	$Camera2D.shake(6.0)
 	
+	if shockwave_effect_scene:
+		var effect = shockwave_effect_scene.instantiate()
+		get_tree().current_scene.add_child(effect)
+		effect.global_position = global_position
+			
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for enemy in enemies:
 		var dist = global_position.distance_to(enemy.global_position)
 		if dist <= shockwave_radius:
 			if enemy.has_method("take_damage"):
 				var push_dir = global_position.direction_to(enemy.global_position)
-				enemy.take_damage(special_damage, push_dir, shockwave_knockback)	
+				enemy.take_damage(special_shockwave_damage, push_dir, shockwave_knockback)
+				_spawn_damage_number(enemy.global_position, special_shockwave_damage)
+
 
 func die() -> void:
 	is_dead = true
