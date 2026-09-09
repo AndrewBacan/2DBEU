@@ -11,8 +11,9 @@ script = ExtResource("1_io4ym")
 [node name="ColorRect" type="ColorRect" parent="." unique_id=663361654]
 offset_left = -6.0
 offset_top = -6.0
-offset_right = 6.0
-offset_bottom = 6.0
+offset_right = -1.0
+offset_bottom = -5.0
+color = Color(0.9562399, 0.28740394, 0.90133023, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1464295872]
 shape = SubResource("RectangleShape2D_t2dwb")

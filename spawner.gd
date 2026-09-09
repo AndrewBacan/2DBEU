@@ -49,3 +49,4 @@ func _on_enemy_died() -> void:
 			_start_wave()
 		else:
 			print("All waves cleared!")
+			

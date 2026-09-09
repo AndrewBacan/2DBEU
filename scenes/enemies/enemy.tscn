@@ -4,8 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://c2tdxmeyb031r" path="res://assets/sprites/enemies/guy.png" id="2_38ino"]
 [ext_resource type="Script" uid="uid://brcd3pf1fmwom" path="res://scenes/enemies/shadow.gd" id="3_38ino"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_t2dwb"]
-size = Vector2(32, 32)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mhsbh"]
+radius = 3.7392197
+height = 20.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m2va7"]
 size = Vector2(32, 32)
@@ -62,7 +63,9 @@ texture = ExtResource("2_38ino")
 script = ExtResource("3_38ino")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=282428385]
-shape = SubResource("RectangleShape2D_t2dwb")
+position = Vector2(-1, 14)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_mhsbh")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=529316]
 

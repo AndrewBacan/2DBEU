@@ -10,7 +10,7 @@ extends CharacterBody2D
 @onready var attack_hitbox: Area2D = $AttackHitbox
 @onready var attack_timer: Timer = $AttackHitbox/AttackTimer
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite: AnimatedSprite2D = $FacingRoot/AnimatedSprite2D
 
 #-----------------Block--------------
 var is_blocking: bool = false
@@ -31,6 +31,7 @@ var is_invulnerable: bool = false
 @export var invulnerable_duration: float = 0.5
 
 #-----------------Special: Shockwave Dash-------------
+var is_special = false
 var can_special: bool = true
 var using_special = true
 @export var special_cooldown: float = 5.0
@@ -44,7 +45,7 @@ var special_hit_targets: Array = []  # tracks who's already been hit this dash, 
 @export var special_dash_damage: int = 25
 @export var special_shockwave_damage: int = 12
 
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var anim_player: AnimationPlayer = $FacingRoot/AnimatedSprite2D/AnimationPlayer
 
 var is_attacking: bool = false
 
@@ -75,7 +76,7 @@ func _ready() -> void:
 	attack_hitbox.monitoring = false
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	current_health = max_health 
-	sprite.animation_finished.connect(_on_sprite_animation_finished)
+	anim_player.animation_finished.connect(_on_sprite_animation_finished)
 	health_changed.emit(current_health, max_health)
 
 func _physics_process(delta: float) -> void:
@@ -91,37 +92,32 @@ func _physics_process(delta: float) -> void:
 	if input_direction.length() > 0:
 		input_direction = input_direction.normalized()
 	
+
+	
 	var current_speed = speed * block_speed_multiplier if is_blocking else speed
 	velocity = (input_direction * current_speed) + knockback_velocity + dash_velocity
 		
 	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_decay * delta)
 	dash_velocity = dash_velocity.move_toward(Vector2.ZERO, dash_decay * delta)
 	
-	if not is_attacking and not is_invulnerable:
-			if is_blocking:
-				sprite.play("defend")
-			elif input_direction.length() > 0:
-				sprite.play("walk")
-			else:
-				sprite.play("idle")
 	
 	if input_direction.x != 0:
 		if input_direction.x < 0:
 			facing_left = true
-			sprite.flip_h = true
+			$FacingRoot.scale.x = -1
 			attack_hitbox.position.x = abs(attack_hitbox.position.x) * (-1)
 		else:
 			facing_left = false
-			sprite.flip_h = false
+			$FacingRoot.scale.x = 1
 			attack_hitbox.position.x = abs(attack_hitbox.position.x)
 	
 	if not is_attacking and not is_invulnerable:
-			if is_blocking:
-				sprite.play("defend")
-			elif input_direction.length() > 0:
-				sprite.play("walk")
-			else:
-				sprite.play("idle")
+		if is_blocking:
+				anim_player.play("defend")
+		elif input_direction.length() > 0:
+				anim_player.play("walk")
+		elif input_direction.length() < 1:
+				anim_player.play("idle")
 	
 	move_and_slide()
 	
@@ -146,13 +142,12 @@ func _start_attack() -> void:
 	is_attacking = true
 	combo_window_open = false
 	queued_next_attack = false
-	print(attack_hitbox.position)
+	
 	
 	var attack_animation = attack_names[combo_step]
-	print("Playing: ", attack_animation)
-	sprite.play(attack_animation)
+	anim_player.play("attack1")
 	
-	var duration = sprite.sprite_frames.get_frame_count(attack_animation) / sprite.sprite_frames.get_animation_speed(attack_animation)
+	var duration = anim_player.current_animation_length
 	attack_timer.wait_time = duration
 	attack_timer.start()
 	
@@ -236,7 +231,7 @@ func take_damage(amount: int, knockback_dir: Vector2 = Vector2.ZERO, knockback_f
 	current_health -= final_damage
 	health_changed.emit(current_health, max_health)
 	if not is_blocking:
-		sprite.play("hurt")
+		anim_player.play("hurt")
 	apply_knockback(knockback_dir, knockback_force * (0.2 if is_blocking else 1.0))
 	is_invulnerable = true
 	await get_tree().create_timer(invulnerable_duration).timeout
@@ -248,11 +243,12 @@ func take_damage(amount: int, knockback_dir: Vector2 = Vector2.ZERO, knockback_f
 	if is_attacking:
 		is_attacking = false
 		attack_hitbox.monitoring = false
-		attack_timer.stop()	
+		attack_timer.stop()
 	
 func _start_special(move_dir: Vector2) -> void:
 	can_special = false
 	is_invulnerable = true
+	is_special = true
 	special_hit_targets.clear()
 	
 	set_collision_layer_value(1, false)
@@ -274,6 +270,7 @@ func _start_special(move_dir: Vector2) -> void:
 	_trigger_shockwave()
 	
 	await get_tree().create_timer(special_cooldown).timeout
+	is_special = false
 	can_special = true
 	
 func _check_special_dash_hits() -> void:
@@ -311,11 +308,11 @@ func die() -> void:
 	is_dead = true
 	print("Player defeated")
 	velocity = Vector2.ZERO
-	sprite.play("death")
+	anim_player.play("death")
 	
-func _on_sprite_animation_finished() -> void:
-	if sprite.animation == "hurt" and not is_dead:
-		sprite.play("idle")
+func _on_sprite_animation_finished(anim_name: String) -> void:
+	if anim_name == "hurt" and not is_dead:
+		anim_player.play("idle")
 	
 	
 func _process(delta: float) -> void:

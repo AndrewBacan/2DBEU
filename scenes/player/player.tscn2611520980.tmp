@@ -10,7 +10,7 @@
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t2dwb"]
-size = Vector2(32, 40)
+size = Vector2(28, 24)
 
 [node name="Player" type="CharacterBody2D" unique_id=781193226 groups=["player"]]
 script = ExtResource("1_8afob")
@@ -27,22 +27,18 @@ shockwave_effect_scene = ExtResource("3_fm80t")
 shape = SubResource("RectangleShape2D_0e48y")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=870232265]
-zoom = Vector2(1.1, 1.1)
 script = ExtResource("2_h17s1")
-
-[node name="FacingRoot" type="Node2D" parent="." unique_id=255035284]
-
-[node name="AnimatedSprite2D" parent="FacingRoot" unique_id=293080312 instance=ExtResource("5_p47bc")]
 
 [node name="AttackHitbox" type="Area2D" parent="." unique_id=236202564]
 position = Vector2(28, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=1841305315]
-position = Vector2(2, -8)
 shape = SubResource("RectangleShape2D_t2dwb")
 
 [node name="AttackTimer" type="Timer" parent="AttackHitbox" unique_id=1310146677]
 wait_time = 0.53
 one_shot = true
+
+[node name="AnimatedSprite2D" parent="." unique_id=293080312 instance=ExtResource("5_p47bc")]
 
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]

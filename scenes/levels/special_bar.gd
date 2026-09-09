@@ -9,8 +9,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if player == null:
 		return
-	if player.can_special:
-		value = 1.0
-	else:
 		# Approximate fill based on elapsed time — see note below
-		value = min(value + delta / player.special_cooldown, 1.0)
+	value = min(value + delta / player.special_cooldown, 1)
+	FillMode.FILL_END_TO_BEGIN

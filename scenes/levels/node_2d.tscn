@@ -31,6 +31,9 @@ corner_detail = 10
 [node name="World" type="Node2D" parent="." unique_id=1989212901]
 y_sort_enabled = true
 
+[node name="Player" parent="World" unique_id=781193226 instance=ExtResource("1_0e48y")]
+position = Vector2(575, 324)
+
 [node name="Spawner" type="Node2D" parent="World" unique_id=1881730136]
 script = ExtResource("4_ccpaa")
 melee_enemy_scene = ExtResource("2_0e48y")
@@ -87,6 +90,3 @@ theme = SubResource("Theme_1dwwa")
 theme_override_styles/background = SubResource("StyleBoxFlat_1dwwa")
 theme_override_styles/fill = SubResource("StyleBoxFlat_amy3i")
 script = ExtResource("6_cy280")
-
-[node name="Player" parent="." unique_id=781193226 instance=ExtResource("1_0e48y")]
-position = Vector2(575, 324)

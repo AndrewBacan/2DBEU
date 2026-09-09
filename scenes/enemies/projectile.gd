@@ -7,10 +7,8 @@ extends Area2D
 var direction: Vector2 = Vector2.RIGHT
 
 func _ready() -> void:
-	print("Projectile spawned at: ", global_position)
 	area_entered.connect(_on_area_entered)
 	await get_tree().create_timer(lifetime).timeout
-	print("Projectile lifetime expired")
 	queue_free()
 
 func _physics_process(delta: float) -> void:
