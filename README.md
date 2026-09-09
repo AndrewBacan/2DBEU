@@ -1,2 +1,7 @@
 # 2DBEU
-My game
+Controls:
+	WASD movement
+	Q: basic attack
+	F: dash attack
+	Ctrl: block
+	space: evade
